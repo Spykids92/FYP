@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ncbi_ref_seq: MyString
+  genome_seq: MyString
+  genome_sample: MyString
+  c_primer: MyString
+
+two:
+  ncbi_ref_seq: MyString
+  genome_seq: MyString
+  genome_sample: MyString
+  c_primer: MyString

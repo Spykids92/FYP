@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  primer_length: 1
+  random_primer_generated: MyString
+
+two:
+  primer_length: 1
+  random_primer_generated: MyString
