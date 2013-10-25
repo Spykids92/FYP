@@ -5,4 +5,7 @@ distinctive pattern on gel contributed by the polymorphic DNA regions
 present in the genome of the organism. Selection of the random primer 
 requires actual laboratory experiments, starting from a panel of 
 oligonucletides. It is totally a blind experiment. This procedure can 
-be time-consuming and require several runs to identify a suitable one.
+be time-consuming and require several runs to identify a suitable primer.
+
+Thus to solve the problem, this program is created to ease the selection 
+of RAPD primers based on the generated results.
