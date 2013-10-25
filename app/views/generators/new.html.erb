@@ -1,0 +1,26 @@
+<html>
+	<body >
+	<div class="page">
+		<div class = "head">
+				<header>
+					<h1>RAPD Primer Generator</h1>
+				<nav>
+					<%= link_to 'HOME', root_path, id:'home' %>
+					<%= link_to 'GENERATE RAPD PRIMER',new_generator_path,id:'new'%>
+					<%= link_to 'VIEW RESULT HISTORY', generators_path(@generators),id:'view'%>
+				</nav>
+				</header>
+			</div>
+		<hr />
+	
+		<div id="form">
+			<h2>Generate New Random Primer</h2>
+		<%= render 'form' %>
+		<%= link_to 'Back', generators_path %>
+		</div>
+		
+		
+	
+	<div class="page">	
+	</body>
+</html>

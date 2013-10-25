@@ -1,0 +1,42 @@
+<%= form_for([@generator, @generator.build_result]) do |f| %>
+<script>
+			$(document).ready(function(){
+				 $("#accession_number").click(function() 
+				 	  {
+				    	$("#FASTA").hide();
+				    	$("#highlight").hide();
+				 	  })
+				 $("#FASTA").click(function()
+				 	  {
+				
+				 		$("#accession_number").hide()
+				 		$("#highlight").hide();
+				 	  })
+					  
+			    $("#reset").click(function()
+				 	  {
+				 		$("#accession_number").show();
+				 		$("#FASTA").show();
+				 		$("#highlight").show();
+				 	  })
+			});
+</script>
+
+  <font size ="6">*** <u>Choose ONE of the input methods</u> *** </font>
+  <p id="accession_number">
+    <label><strong><font size ="3">NCBI accession number:</font></strong></label><br />
+  <%= f.text_field :ncbi_ref_seq , :value => '', placeholder: 'Accession Number'%>
+  </p>
+  
+  <p id="highlight"><font size ="5">
+  		OR	
+  </font></p>
+  
+  <p id="FASTA">
+  	<strong><font size ="3">Paste your sequence here: ( FASTA format ) :</font></strong> 
+ 	<%= f.text_area(:genome_seq, size: "50x10",:value => '',placeholder: 'Input your sequence here') %>
+ </p>
+  
+  <input type="reset" value="Reset" id="reset">
+    <%= f.submit 'Analyze' %>
+<% end %>

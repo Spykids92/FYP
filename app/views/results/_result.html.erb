@@ -1,0 +1,17 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>NCBI accession number:</strong>
+  <%= result.ncbi_ref_seq %>
+</p>
+<p>
+  <strong>Description of reference sequence:</strong>
+  <%= result.genome_sample %>
+</p>
+<p>
+	<strong>Binding of primer (number of times)</strong>
+	<%=result.binding_times %>
+</p>
+<%= link_to 'Delete',[result.generator, result], method: :delete, data: { confirm: 'Are you sure?' } %>
+<hr />
+

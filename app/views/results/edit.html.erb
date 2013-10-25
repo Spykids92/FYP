@@ -1,0 +1,28 @@
+<h1>Editing result</h1>
+
+<%= form_for(@result) do |f| %>
+  <% if @result.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@result.errors.count, "error") %> prohibited this result from being saved:</h2>
+
+      <ul>
+      <% @result.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :ncbi_ref_seq %><br>
+    <%= f.text_field :ncbi_ref_seq %>
+  </div>
+  
+  <div class ="button">
+  	<%=f.submit%>
+  </div>
+
+<% end %>
+
+<%= link_to 'Show', @result %> |
+<%= link_to 'Back', results_path %>
