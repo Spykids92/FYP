@@ -1,11 +1,18 @@
 Project::Application.routes.draw do
-  
-  #resources :results
+  get "/signout" => "sessions#destroy", :as => :signout
 
-  root :to => 'welcome#index'
-  resources :generators do
-    resource :results
+  
+  root :to => 'welcome#index' 
+  get '/auth/:provider/callback' => 'sessions#create' 
+  post '/auth/identity/callback' => 'sessions#create'
+  
+  resources :users 
+  
+  resources :generators do 
+    resources :results
   end  
+  resources :identities
+ 
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -1,0 +1,60 @@
+<div class = "overall_show">
+		<h2><u>Generated RAPD Primer</u></h2>
+			<table class="result_show">
+				<tr>
+					<td id="col_1"><strong>Created At</strong></td>
+					<td id="col_2"><%=@result.generator.created_at %></td>
+				</tr>
+				<tr>
+					<td id="col_1"><strong>Primer Length</strong></td>
+					<td id="col_2"><%=@result.generator.primer_length %></td>
+				</tr>
+				<tr>
+					<td id="col_1"><strong>Random Primer Generated</strong></td>
+					<td id="col_2"><%=@result.generator.random_primer_generated %></td>
+				</tr>
+				<tr>
+					<td id="col_1"><strong>Melting Temperature</strong></td>
+					<td id="col_2"><%=@result.generator.melting_temp %> <sup>o</sup>C</td>
+				</tr>
+				<tr>
+					<td id="col_1"><strong>NCBI Reference Sequence</strong></td>
+					<% if @result.ncbi_ref_seq.blank?%>
+					<td id="col_2">NIL / NONE</td> 
+					<%else%>
+					<td id="col_2"><%= @result.ncbi_ref_seq %></td>
+					<%end%>
+				</tr>
+				<tr>
+					<td id="col_1"><strong>Genome Sample</strong></td>
+			        <td id="col_2"><%= @result.genome_sample %></td>
+				</tr>
+				<tr>
+					<td id="col_1"><strong>Primer Binding Times</strong></td>
+			        <td id="col_2"><%= @result.binding_times %></td>
+				</tr>		
+				<tr>
+					<td id="col_1"><strong>Estimated Number of Fragments</strong></td>
+			        <td id="col_2"><%= @result.amp_frags %></td>
+				</tr>	
+				<tr>
+					<td id="col_1"><strong>Position of 3' Primer</strong></td>
+					<% if @result.seqpos1.blank?%>
+						<td id="col_2"><strong>-</strong></td>
+					<%else%>
+			        	<td id="col_2"><%= @result.seqpos1 %></td>
+			        <%end%>
+				</tr>	
+				<tr>
+					<td id="col_1"><strong>Position of 5' Primer</strong></td>
+					<% if @result.seqpos2.blank?%>
+						<td id="col_2"><strong>-</strong></td>
+					<%else%>
+			        	<td id="col_2"><%= @result.seqpos2 %></td>
+			        <%end%>
+				</tr>	
+			</table>
+
+<br />
+</div>
+<%= link_to 'Back', generators_path %>

@@ -1,61 +1,55 @@
 <html>
-	<body>
-	<div class="page">
-		<div class = "head">
-				<header>
-					<h1>RAPD Primer Generator</h1>
-				<nav>
-					<%= link_to 'HOME', root_path, id:'home' %>
-					<%= link_to 'GENERATE RAPD PRIMER',new_generator_path,id:'new'%>
-					<%= link_to 'VIEW RESULT HISTORY', generators_path(@generators),id:'view'%>
-				</nav>
-				</header>
-			</div>
-		<hr />
-		
+<body>
+<div id="view_index">
 		<h2 align="center">Primer Generated Results</h2>
-			<p align ="center"><font size ="5"><strong>*** <u>Click Analyze for Binding-Time Analysis</u> *** </p></font></strong>
-		<table class="index">
-		  <thead>
-		    <tr>
-		      <th class="index">Primer length</th>
-		      <th class="index">Method used</th>
-		      <th class="index">Random primer generated <b>[5'->3']</b></th>
-		      <th class="index">T<sub>m</sub> (<sup>o</sup>C)</th>
-		      <th class="index">Generated Time (UTC +8:00)</th>
-		      <th class="index">Reference sequence</th>
-		      <th class="index">Description of reference sequence</th>
-		      <th class="index">Binding of primer(number of times)</th>
-		    </tr>
-		  </thead>
+			<p align ="center"><font size ="5"><strong>*** <u>Click Analyze for Binding-Time Analysis</u> *** </p></font></strong>	
 		
-		  <tbody>
-		     <% @generators.each do |generator| %>
-		     <tr class="index">
-		        <td id="no_col" align="center"><%= generator.primer_length %></td>
-		        <td id="sstring_col" align="center"><%= generator.choice %></td>
-		        <td id="rpg_col"><%= generator.random_primer_generated %></td>
-		        <td id="no_col" align="center"><%= generator.melting_temp %><sup>o</sup>C</td>
-		        <td id="string_col"><%= generator.created_at %>
+<table class="index">
+	<thead>
+		  <tr>
+		      <th class="no_col">Primer length</th>
+		      <th class="sstring_col">Method used</th>
+		      <th class="rpg_col">Random primer generated <b>[5'->3']</b></th>
+		      <th class="no_col">T<sub>m</sub> (<sup>o</sup>C)</th>
+		      <th class="string_col">Generated Time (UTC +8:00)</th>
+		      <th class="sstring_col">Reference sequence</th>
+		      <th class="gs_col">Description of reference sequence</th>
+		      <th class="no_col">Binding of primer (no.of times)</th>
+		  </tr>
+	</thead>
+		
+	<tbody>
+		    <% current_user.generators.each do |generator| %>
+		  <tr class="result">
+		        <td align="center"><%= generator.primer_length %></td>
+		        <td align="center"><%= generator.choice %></td>
+		        <td>			   <%= generator.random_primer_generated %></td>
+		        <td align="center"><%= generator.melting_temp %><sup>o</sup>C</td>
+		        <td>			   <%= generator.created_at %></td>
 		        
-		        <% if generator.result.present?%>
-			        
-			        <td id="sstring_col"><%= generator.result.ncbi_ref_seq %></td>
-			        <td id="gs_col"><%= generator.result.genome_sample %></td>
-			        <td id="string_col" align="center"><%= generator.result.binding_times %></td>
-			        <td id="change"></td>
-		        	<td id="change"><%= link_to 'Delete', generator, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		        <% if generator.result.present? %>
+			        	<% if generator.result.ncbi_ref_seq.blank?%>
+					        <td> NIL </td>
+					        <td> SAMPLE </td>
+					        <td align="center"><%= generator.result.binding_times %></td>
+				        <%else%>
+				        	<td>			   <%= generator.result.ncbi_ref_seq %></td>
+					        <td>			   <%= generator.result.genome_sample %></td>
+					        <td align="center"><%= generator.result.binding_times %></td>
+				        <%end%>
+			    <td id="change"><%= link_to 'Details',generator_result_path(:generator_id=>generator.id, :id=>generator.result.id) %></td>
+			    <td id="change"><%= link_to 'Delete',generator, :method => :delete, data: { confirm: 'Are you sure?' } %></td>
 		        <% else %>
-		        	<td id="sstring_col"></td>
-		        	<td id="gs_col"></td>
-		        	<td id="string_col"></td>
-		        	<td id="change"><%= link_to 'Analyze', generator %></td>
-		        	<td id="change"><%= link_to 'Delete', generator, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		        	<td></td>
+		        	<td></td>
+		        	<td></td>
+		        	<td id="change"><%= link_to 'Analyze',generator_path(generator) %></td>
+		        	<td id="change"><%= link_to 'Delete',generator,:method => :delete, data: { confirm: 'Are you sure?' } %></td>
 		        <% end %>
-		    </tr>
+		 </tr>
 		     <% end %>
 		  </tbody>
 		</table>
-	</div>	
-	</body>	
+</div>
+</body>	
 </html>

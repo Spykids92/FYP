@@ -1,48 +1,50 @@
+<script>
+	$("#home").click(function ()
+{
+    if ($(this).data('clicked')) {
+        return false;
+    }
+    $(this).data('clicked', 1);
+});
+</script>
 <html>
-	<head>
-	<title>RAPD Primer Generator </title>
-	</head>
-		<body>
-		<div class ="page">
-			<div class = "head">
-				<header>
-					<h1>RAPD Primer Generator</h1>
-				
-				<nav>
-					<%= link_to 'HOME', root_path, id:'home' %>
-					<%= link_to 'GENERATE RAPD PRIMER',new_generator_path,id:'new'%>
-					<%= link_to 'VIEW RESULT HISTORY', generators_path(@generators),id:'view'%>
-				</nav>
-				</header>
-			</div>
-		<hr />
-		
-		<img src= "/images/DNA_side.jpg" width="180" height="500" align="left"/ >
-		<h1> What is RAPD ?</h1>
-		<p class="introduction">
-			<b>Random amplified polymorphic DNA (RAPD)</b> has been used as a powerful genotyping tool. 
-			It utilizes short oligonucleotide as primer that binds ambiguously to 
-			multiple sites on a genome. The amplified fragments may exhibit 
-			distinctive pattern on gel contributed by the polymorphic DNA regions 
-			present in the genome of the organism. Selection of the random primer 
-			requires actual laboratory experiments, starting from a panel of 
-			oligonucletides. It is totally a blind experiment. This procedure can 
-			be time-consuming and require several runs to identify a suitable one. 
-		</p>
-		
-		<p class="content">
-			This program serves as a platform for RAPD primer(s) generation, and at
-			the same time, provides further evaluation on the primers based on melting
-			temperature and number of binding on a specified genome.  
-			<br />
-			For this application, you  :<br>
-		</p>
-			<ul>
-				 <li>will be guided how to use this application.</li> 
-				 <li>can generate a random primer according to 1 of the selections you picked.</li>
-				 <li>retrieve your data from NCBI by giving in the accession reference / accession number.</li>
-			</ul>	
-			
+<body>
+<div id="body">		
+		<div id="img1" style="float:left;">
+					<%= image_tag("/images/DNA_side.jpg",:width=>"180",:height=>"478") %> 
+		</div>
+		<div id="img2" style="float:right;">
+					<%= image_tag("bee.jpg")%>
+		</div>
+		<div id="content" ></div>
+					<h2> What is RAPD ?</h2>
+					<p class="introduction">
+						<b>Random amplified polymorphic DNA (RAPD)</b> has been used as a powerful genotyping tool. 
+						It utilizes short oligonucleotide as primer that binds ambiguously to 
+						multiple sites on a genome. The amplified fragments may exhibit 
+						distinctive pattern on gel contributed by the polymorphic DNA regions 
+						present in the genome of the organism. Selection of the random primer 
+						requires actual laboratory experiments, starting from a panel of 
+						oligonucletides. It is totally a blind experiment. This procedure can 
+						be time-consuming and require several runs to identify a suitable one. 
+					</p>
+					<br />
+					<p class="content" >		
+						This program serves as a platform for RAPD primer(s) generation, and at
+						the same time, provides further evaluation on the primers based on melting
+						temperature and number of binding on a specified genome.  
+						<br />
+						For this application, you  :<br>
+						<ul>
+							 <li>will be guided how to use this application.</li> 
+							 <li>can generate a random primer according to 1 of the selections you picked.</li>
+							 <li>retrieve your data from NCBI by giving in the accession reference / accession number.</li>
+						</ul>
+					</p>
+		</div>
 	</div>
-	</body>
+<div id="foot">
+			<b>Copyright ©2013 Multimedia University </b>
+</div>
+</body>
 </html>

@@ -4,11 +4,15 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.0.rc2'
 
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+gem 'pg'
 gem 'bio'
-gem 'devise', '3.0.0.rc'
 gem 'protected_attributes'
 gem 'nested_form'
+gem 'omniauth-twitter'
+gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-identity'
+gem 'spinjs-rails'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0.rc2'
 
@@ -36,7 +40,7 @@ group :doc do
 end
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
+ gem 'bcrypt-ruby', '~> 3.0.0'
 
 # Use unicorn as the app server
 # gem 'unicorn'

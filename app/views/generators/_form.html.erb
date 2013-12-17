@@ -1,8 +1,16 @@
 <html>
-	<body >
-		
-		  <%= form_for (@generator ) do |f| %>
-		  <% if @generator.errors.any? %>
+<script>
+$(document).ready(function() {
+ var total = 0;
+ $.each($(':input'), function(){
+   total += parseInt($(this).val(), 10); //use radix 10 to ensure correct parseInt val
+ });
+ $("span").text(i);
+});
+</script>
+<body >
+<%= form_for(@generator) do |f| %>
+		<% if @generator.errors.any? %>
 		    <div id="error_explanation">
 		      <h2><%= pluralize(@generator.errors.count, "error") %> prohibited this generator from being saved:</h2>
 		
@@ -12,23 +20,22 @@
 		      <% end %>
 		      </ul>
 		    </div>
-		  <% end %>
-		
+		<% else %>
 		<fieldset class ="primer">
-		    <legend><strong>Method Use :</strong></legend><br>  
+		<legend><strong>Method Use :</strong></legend><br>  
 		    <h3 align="left"><font size ="5"><b>Step 1: <u>Choose only ONE of the methods</u></font></b></h3> 
-		<table class="primer">
+		<table class="p_gen">
 			<thead>
 			  <tr>
-		        <th class="primer"><label>Randomly</label><br />
-			    <%= radio_button_tag(:choice, 'Randomly', true )%>
+		        <th class="method1"><label>Randomly</label><br />
+			    <%= radio_button_tag(:choice,'Randomly',checked:true )%>
 			    <p> ( Generate a primer randomly )</p></th>
 			    
-			  	<th class="primer"><label>Specified ATGC</label><br />
+			  	<th class="method2"><label>Specified ATGC</label><br />
 			  	<%= radio_button_tag(:choice,'Specified ATGC')%> 
 			  	<p> ( Generate a primer with number of A,T,G and C )</p></th>
 			  	
-			  	<th class="primer"><label>Seating</label><br />
+			  	<th class="method3"><label>Seating</label><br />
 			  	<%= radio_button_tag(:choice,'Seating')%> 
 			  	<p> ( Generate a primer according to your preference )</p></th>
 			 </tr>
@@ -36,25 +43,24 @@
 			
 			<tbody>
 				<tr>
-					<td class="primer">
+				<td class="method1">
 					<p> Input length of the primer you want : </p>
 					<label>Primer Length :</label>
-					<%= f.number_field :primer_length , min: 6 , max: 35%>
-					</td>
-					
-			  		<td class="primer">
+					<%= f.number_field(:primer_length , min: 6 , max: 35)%>
+				</td>
+			  	<td class="method2">
 			  		<p>Input the number of each base the primer should have</p>
 			  		<label>Number of A :</label>
-			  		<%= number_field_tag :no_A %><br>
+			  		<%= number_field_tag(:no_A,nil, in:0...36) %><br />
 				  	<label>Number of T :</label>
-				  	<%= number_field_tag :no_T %><br>
+				  	<%= number_field_tag(:no_T,nil, in:0...36) %><br />
 				  	<label>Number of G :</label>
-				  	<%= number_field_tag :no_G %><br>
+				  	<%= number_field_tag(:no_G,nil, in:0...36) %><br />
 				  	<label>Number of C :</label>
-				  	<%= number_field_tag :no_C %><br>
-				  	</td>
-				  	
-				  	<td class="primer">
+				  	<%= number_field_tag(:no_C,nil, in:0...36) %><br />
+				  	Total bases:<span></span>
+				</td> 	
+				<td class="method3">
 				  	<p> Input your preference sequence (only IUPAC nucleotide).</p>
 				  	<p><b><u>IUPAC Nucleotide :</u></b></p>
 				  	<p>A,T,G,C,R,Y,S,W,K,M,B,D,H,V,N </p>
@@ -62,8 +68,8 @@
 				  	Preference primer = TAGGCT<b>N</b>TTA<b>N</b>GAC<b>N</b> <br />
 				  	N = Any base ( A/ T / G / C) <br /><br />			  	
 				  	<label>Desired sequence :</label><br>
-				  	<%= text_field_tag :user_seq ,nil, maxlength: 35%>
-				  	</td>
+				  	<%= text_field_tag(:user_seq,nil, :maxlength=>35)%>
+				</td>
 			  	</tr>
 			</tbody>
 		</table>
@@ -71,7 +77,7 @@
 		<br>
 		
 		<fieldset class ="sample">
-			<h4><font size="5"><b>Step 2: <u>Choose 'Yes' if you want to input reference sequence for Binding-time analysis </font></u></b></h4> 
+		<h4><font size="5"><b>Step 2: <u>Choose 'Yes' if you want to input reference sequence for Binding-time analysis </font></u></b></h4> 
 		<legend><strong>Do you have NCBI data to extract / FASTA file to input?</strong></legend><br>
 		 	<label>Yes</label>
 		 	<%= radio_button_tag(:result_choice,'Yes')%> 
@@ -81,9 +87,9 @@
 		</fieldset>
 		
 		<br><div class = "button"> 
-		   <%=f.submit"Generate"%>
+		   <%=f.submit("Generate", :class => "Gbutton_class") %>
 		</div>	
-		<% end %>
-
-	</body>
+	<%end %>	
+<%end%>
+</body>
 </html>

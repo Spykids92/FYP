@@ -8,35 +8,23 @@ class ResultsController < ApplicationController
 
   # GET /results/new
   def new
+    @result=Result.new
   end
 
-  # GET /results/1/edit
-
-  # POST /results
-  # POST /results.json
-  def create
+  # POST /results :url=> generator_results_path(@generator)
+  # POST /results.json TGATGAACATCATGATGAGGTGATGACATCACATCATTGACTGATGCATCATGATG
+  def create    
     @generator = Generator.find(params[:generator_id])
-    #@result = @generator.result.create_result(result_params)
-    @result = @generator.build_result(result_params)
-    @result=@result.generate_result(result_params)
-    @generator.result.save
+    @result = @generator.build_result(params[:result])
+    @result.generate_result(result_params)
+    @generator.save
     redirect_to generators_path
   end
 
-  # PATCH/PUT /results/1
-  # PATCH/PUT /results/1.json
-  def update
-    respond_to do |format|
-      if @result.update(result_params)
-        format.html { redirect_to @result, notice: 'Result was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @result.errors, status: :unprocessable_entity }
-      end
-    end
+  def show
+    @result = Result.find(params[:id])
   end
-
+  
   # DELETE /results/1
   # DELETE /results/1.json
   def destroy
@@ -54,6 +42,6 @@ class ResultsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def result_params
-      params.require(:result).permit(:ncbi_ref_seq,:genome_seq,:genome_sample,:binding_times)
+      params.require(:result).permit(:ncbi_ref_seq,:genome_seq,:genome_sample,:binding_times,:amp_frags,:seqpos1,:seqpos2)
     end
 end

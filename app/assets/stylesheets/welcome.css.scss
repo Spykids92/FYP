@@ -1,63 +1,58 @@
 // Place all the styles related to the Welcome controller here.
 // They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-div.page{
-  width:1330px;
-  header{
-    width:1330px;
-    font-family: arial;
-    text-align: center;
-    background-color: #A68750;
-    
-    h1{
-    padding: 10px 5px 10px 5px;
+// You can use Sass (SCSS) here: http://sass-lang.com/ 
+#body{
+  position:absolute;
+  height:480px;
+  h2{
+    position:absolute;
+    top:15px;
     color:#000000;
-    background-color: #A68750;
-    }
-   
-    nav{
-      padding: 5px 5px 5px 5px;
-      background-color: #B39768;
-    }
-    
-    nav #home,#new,#view{
-      font-family: "Arial black",serif;
-      text-decoration:none;
-      color:#FFFFFF;
-      margin-right:100px;
-      background-color:#B39768;
-    }
+    margin-left:190px;
   }
-  
   p.introduction{
+    position:absolute;
+    top:55px;
     width:500px;
     align:center;
-    margin-left: 350px;
-    padding: 17px;
+    text-align:justify;
+    margin-left: 330px;
+    padding: 10px;
     border: 5px solid; 
     border-color: #0000CC #CC0000 #0000CC #CC0000;
-    font-family: "Times New Roman",serif;
-    font-size: 17px;
+    font-size: 14px;
     color:#000000;
-    letter-spacing:0.05em;
     word-spacing:0.17em;
     line-height:1.3em;
   }
-  
   p.content{
+    position:absolute;
+    top:280px;
     margin-left:190px;
     font-size: 14px;
     font-weight: normal;
     color:#000000;
     word-spacing:0.15em;
   }
-  
-  li{
+  li{    
+    position:relative;
+    top:350px;
     margin-left:190px;
     word-spacing:0.15em;
     font-weight:normal;
-    font-size: 13.5px;
+    font-size: 14px;
     color:#000000;
   }
+  #img1{
+    position:absolute;
+    top:0px;
+  }
+  #img2{
+    position:absolute;
+    top:50px;
+    margin-left:860px;
+  }
 }
+  
+ 
 

@@ -1,14 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Project</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <title>RAPD Primer Generator</title>
+  <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+<div id ="container">
+	<div id="header">
+			<h1>RAPD Primer Generator</h1>
+	</div>
+	<div id="user_nav">
+			<% if current_user %>
+					<div class="loginmsg1">
+	  				<strong>Welcome <%= current_user.name %>! 
+	  				<%= link_to "Sign Out", signout_path, id:'signout' %></strong>
+	  				</div>
+			<% else %>
+					<div class="loginmsg1">
+						<strong>Sign in using:</strong> 
+					</div>
+					<div class="omni">
+						<a href="/auth/twitter">
+								  <%= image_tag "twitter_64.png", :size => "40x40", :alt => "Twitter" %>
+						</a>
+						<a href="/auth/facebook">
+								  <%= image_tag "facebook_64.png", :size => "40x40", :alt => "Facebook" %>
+						</a>
+						<a href="/auth/google_apps">
+								  <%= image_tag "google_64.png", :size => "40x40", :alt => "Google" %>
+						</a>
+					</div>
 
-<%= yield %>
-
+					<p><strong>Don't use these services?</strong>
+				  			<%= link_to "Create an account", new_identity_path, id:'create' %> <strong>or login here.</strong></p>
+				  			<div class="iden">
+	<%= form_tag "/auth/identity/callback" do %>
+	  		<div class="field">
+	   		 	<strong><%= label_tag :auth_key, "Email" %></strong><br>
+	    		<%= text_field_tag :auth_key %>
+	  		</div>
+	 		 <div class="field">
+	    		<strong><%= label_tag :password %></strong><br>
+	    		<%= password_field_tag :password %>
+	  		</div>
+	 	    <div class="actions"><%= submit_tag "Login" %></div>
+		<% end %>
+	</div>
+			<% end %>
+	</div>
+	
+	<div id="menu">
+		<% if current_user %>
+				<nav>
+					 <%= link_to 'HOME', root_path, id:'home' %>
+					 <%= link_to 'GENERATE RAPD PRIMER',new_generator_path, id:'new' %></li>
+					 <%= link_to 'VIEW RESULT HISTORY',generators_path(@generators),id:'view'%></li>
+				</nav>
+		<%end%>
+	</div>
+	<%= yield %>
+</div>
 </body>
 </html>

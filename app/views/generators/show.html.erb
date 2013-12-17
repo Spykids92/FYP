@@ -1,20 +1,5 @@
-<div class="page">
-		<div class = "head">
-				<header>
-					<h1>RAPD Primer Generator</h1>
-				<nav>
-					<%= link_to 'HOME', root_path, id:'home' %>
-					<%= link_to 'GENERATE RAPD PRIMER',new_generator_path,id:'new'%>
-					<%= link_to 'VIEW RESULT HISTORY', generators_path(@generators),id:'view'%>
-				</nav>
-				</header>
-			</div>
-		<hr />
-
-<p id="notice"><%= notice %></p>
-
 <div class = "result_show">
-		<h1><u>Generated RAPD Primer</u></h1>
+		<h2><u>Generated RAPD Primer</u></h2>
 			<table class="result_show">
 				<tr>
 					<td><strong>Primer Length:</strong></td>
@@ -33,20 +18,11 @@
 					<td><%= @generator.melting_temp %><sup>o</sup>C</td>
 				</tr>			
 			</table>
-
-<% if @generator.result.present?%>
-	<fieldset class="result">
-		<legend><u>Binding-Time Analysis Result :</u></legend>
-		<%= render @generator.result %>
-	</fieldset>
-	
-	
-<% else %>
 	<fieldset class ="result">
 		<legend><strong>Binding Time Analysis</strong></legend>
 	<%= render "results/form" %>
 	</fieldset>
-<% end %>
+
 <br />
+
 <%= link_to 'Back', generators_path %>
-</div>

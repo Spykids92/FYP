@@ -13,6 +13,7 @@ class CreateGenerators < ActiveRecord::Migration
       t.string :f_primer
       t.string :r_primer
       t.string :result_choice
+      t.references :user
       t.timestamps
     end
          
