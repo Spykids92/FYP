@@ -1,7 +1,9 @@
 class Generator < ActiveRecord::Base
   has_one :result , :dependent => :destroy
   belongs_to :user
-  attr_accessible :choice, :primer_length, :random_primer_generated, :generator_id
+  default_scope order('created_at DESC')
+ 
+  attr_accessible :choice, :primer_length, :random_primer_generated, :generator_id,:user_seq
   def random_generate(generator_params)
     length = primer_length
     chars = 'ATGC'

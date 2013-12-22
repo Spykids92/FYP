@@ -24,15 +24,14 @@ class Result < ActiveRecord::Base
         primer_length=g.primer_length
         forward=self.genome_seq.scan(g.f_primer) #pass forward and reverse count for next function determine
         reverse=self.genome_seq.scan(g.r_primer)
-        self.binding_times= forward.length() + reverse.length() 
+        self.binding_times= forward.length+reverse.length 
         
-        if self.binding_times <2 || reverse.length == 0 || forward.length == 0
+        if reverse.length == 0 || forward.length == 0
             self.amp_frags=0 
             self.genome_seq = nil
         else        
             xf=self.genome_seq.gsub(g.f_primer,' F ') 
-            xfr=xf.gsub(g.r_primer,' R ')
-           
+            xfr=xf.gsub(g.r_primer,' R ') 
             findstarter(xfr,primer_length)
         end 
    end

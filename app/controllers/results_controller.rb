@@ -3,8 +3,8 @@ class ResultsController < ApplicationController
   # GET /results
   # GET /results.json
   def index
-    @results = Result.all
-  end
+    @results=Result.order("id DESC")
+  end 
 
   # GET /results/new
   def new

@@ -68,7 +68,7 @@ $(document).ready(function() {
 				  	Preference primer = TAGGCT<b>N</b>TTA<b>N</b>GAC<b>N</b> <br />
 				  	N = Any base ( A/ T / G / C) <br /><br />			  	
 				  	<label>Desired sequence :</label><br>
-				  	<%= text_field_tag(:user_seq,nil, :maxlength=>35)%>
+				  	<%= text_field_tag(:user_seq,nil,:min=>6, :maxlength=>35)%>
 				</td>
 			  	</tr>
 			</tbody>

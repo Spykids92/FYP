@@ -4,8 +4,7 @@ class GeneratorsController < ApplicationController
   # GET /generators
   # GET /generators.json
   def index
-    @generators=Generator.all
-    @generators.order("created_at DESC")
+    @generators=Generator.all.order("created_at DESC")
   end
 
   # GET /generators/1
