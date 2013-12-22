@@ -2,8 +2,14 @@ class Generator < ActiveRecord::Base
   has_one :result , :dependent => :destroy
   belongs_to :user
   default_scope order('created_at DESC')
- 
+  
+  validates_inclusion_of :user_seq, :in => %w(A T G C R Y S W K M B D H V N), if: :choice_is_seating?
   attr_accessible :choice, :primer_length, :random_primer_generated, :generator_id,:user_seq
+  
+  def choice_is_seating?
+    choice=="seating"
+  end
+  
   def random_generate(generator_params)
     length = primer_length
     chars = 'ATGC'
