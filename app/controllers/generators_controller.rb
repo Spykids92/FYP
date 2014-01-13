@@ -19,6 +19,13 @@ class GeneratorsController < ApplicationController
 
   # GET /generators/1/edit
   def edit
+      if @generator.choice == 'Randomly'
+          @generator.random_generate(generator_params,params[:monovalent],params[:divalent],params[:dNTP])
+      elsif @generator.choice == 'Specified ATGC'
+          @generator.specified_ATGC(params[:no_A],params[:no_T],params[:no_G],params[:no_C],params[:monovalent],params[:divalent],params[:dNTP])
+      elsif @generator.choice == 'Seating'
+          @generator.seating(params[:user_seq],params[:monovalent],params[:divalent],params[:dNTP])
+      end
   end
 
   # POST /generators
@@ -27,11 +34,11 @@ class GeneratorsController < ApplicationController
     @generator = current_user.generators.build(params[:generator])
     @generator.choice = params[:choice]
       if @generator.choice == 'Randomly'
-          @generator.random_generate(generator_params)
+          @generator.random_generate(generator_params,params[:monovalent],params[:divalent],params[:dNTP])
       elsif @generator.choice == 'Specified ATGC'
-          @generator.specified_ATGC(params[:no_A],params[:no_T],params[:no_G],params[:no_C])
+          @generator.specified_ATGC(params[:no_A],params[:no_T],params[:no_G],params[:no_C],params[:monovalent],params[:divalent],params[:dNTP])
       elsif @generator.choice == 'Seating'
-          @generator.seating(params[:user_seq])
+          @generator.seating(params[:user_seq],params[:monovalent],params[:divalent],params[:dNTP])
       end
       
     @generator.result_choice=params[:result_choice]
@@ -40,7 +47,7 @@ class GeneratorsController < ApplicationController
        if @generator.result_choice == 'Yes'
               format.html { redirect_to(generator_path(@generator)) }
        else
-              format.html { redirect_to(generators_path(@generators)) }
+              format.html { redirect_to(generators_path(@generator)) }
        end
      end 
   end
@@ -75,6 +82,6 @@ class GeneratorsController < ApplicationController
     end
 
     def generator_params
-        params.require(:generator).permit(:generator_id,:primer_length,:choice,:random_primer_generated,:no_A,:no_T,:no_G,:no_C,:user_seq)
+        params.require(:generator).permit(:generator_id,:primer_length,:choice,:random_primer_generated,:no_A,:no_T,:no_G,:no_C,:user_seq,:monovalent,:divalent,:dNTP)
     end
 end

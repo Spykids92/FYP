@@ -10,32 +10,34 @@ class Generator < ActiveRecord::Base
     choice=="seating"
   end
   
-  def random_generate(generator_params)
+  def random_generate(generator_params,monovalent,divalent,dNTP)
     length = primer_length
     chars = 'ATGC'
     seq = ''
     length.times { seq << chars[rand(chars.size)] }
     self.random_primer_generated = seq
+    self.percent_gc = seq.gc_percent
     fwrd =Bio::Sequence::NA.new(self.random_primer_generated)
     self.f_primer=fwrd.upcase
     r=f_primer.reverse.upcase
     self.r_primer=r.forward_complement.upcase
-    calculate_Tm(self.primer_length,self.random_primer_generated)
+    calculate_Tm(self.primer_length,self.random_primer_generated,monovalent,divalent,dNTP)
   end
 
-  def specified_ATGC(no_A,no_T,no_G,no_C)
+  def specified_ATGC(no_A,no_T,no_G,no_C,monovalent,divalent,dNTP)
     counts = {'A'=>no_A,'T'=>no_T,'G'=>no_G,'C'=>no_C}
     self.random_primer_generated = Bio::Sequence::NA.randomize(counts).upcase
     self.primer_length = self.random_primer_generated.length
-
+    self.percent_gc = random_primer_generated.gc_percent
+    
     fwrd = Bio::Sequence::NA.new(self.random_primer_generated)
     self.f_primer = fwrd.upcase
     r=f_primer.reverse.upcase
     self.r_primer=r.forward_complement.upcase
-    calculate_Tm(self.primer_length,self.random_primer_generated)
+    calculate_Tm(self.primer_length,self.random_primer_generated,monovalent,divalent,dNTP)
   end
 
-  def seating(user_seq)
+  def seating(user_seq,monovalent,divalent,dNTP)
     desired_random_primer=user_seq
     self.primer_length = desired_random_primer.length
     n=0
@@ -101,55 +103,57 @@ class Generator < ActiveRecord::Base
       n+=1
     end
     self.random_primer_generated = desired_random_primer
+    s= Bio::Sequence::NA.new(random_primer_generated)
+    self.percent_gc =s.gc_percent
 
     fwrd =Bio::Sequence::NA.new(self.random_primer_generated)
     self.f_primer = fwrd.upcase
     r=f_primer.reverse.upcase
     self.r_primer=r.forward_complement.upcase
-    calculate_Tm(self.primer_length,self.random_primer_generated)
+  
+    calculate_Tm(self.primer_length,self.random_primer_generated,monovalent,divalent,dNTP)
   end
 
-  def calculate_Tm(primer_length,random_primer_generated)
-
-    ct = 0.5/1000000.to_f   # concentration of oligo (mol/L)
-    na = 50/1000.to_f      # concentration of Na+ (mol/L)
-    fa = 0.to_f           # concentration of Formamide (mol/L)
-    @@r=1.987                   # gas constant R
-
+  def calculate_Tm(primer_length,random_primer_generated,monovalent,divalent,dNTP)
     random_primer_generated.upcase
 
-    _h = {"AA" => -8.4, "TT" => -8.4, "AT" => -6.5, "TA" => -6.3,
-      "CA" => -7.4, "TG" => -7.4, "GT" => -8.6, "AC" => -8.6,
-      "CT" => -6.1, "AG" => -6.1, "GA" => -7.7, "TC" => -7.7,
-      "CG" => -10.1, "GC" => -11.1, "GG" => -6.7, "CC" => -6.7}
+    _h = {"AA" => -7.9, "TT" => -7.9, "AT" => -7.2, "TA" => -7.2,
+      "CA" => -8.5, "TG" => -8.5, "GT" => -8.4, "AC" => -8.4,
+      "CT" => -7.8, "AG" => -7.8, "GA" => -8.2, "TC" => -8.2,
+      "CG" => -10.6, "GC" => -9.8, "GG" => -8.0, "CC" => -8.0}
 
-    _s={"AA" => -23.6, "TT" => -23.6, "AT" => -18.8, "TA" => -18.5,
-      "CA" => -19.3, "TG" => -19.3, "GT" => -23.0, "AC" => -23.0,
-      "CT" => -16.1, "AG" => -20.8, "GA" => -20.3, "TC" => -20.3,
-      "CG" => -25.5, "GC" => -28.4, "GG" => -15.6, "CC" => -15.6}
+    _s={"AA" => -22.2, "TT" => -22.2, "AT" => -20.4, "TA" => -21.3,
+      "CA" => -22.7, "TG" => -22.7, "GT" => -22.4, "AC" => -22.4,
+      "CT" => -21.0, "AG" => -21.0, "GA" => -22.2, "TC" => -22.2,
+      "CG" => -27.2, "GC" => -24.4, "GG" => -19.9, "CC" => -19.9}
 
-    tot_h=0.0
-    tot_s=0.0
+    tot_h=2.4 
+    tot_s=1.3 
     for i in 0..(random_primer_generated.length-2)
       tot_h += _h[ random_primer_generated.slice(i,2) ]
       tot_s += _s[ random_primer_generated.slice(i,2) ]
     end
+    
+    ct = 5/100000000.to_f   # concentration of oligo (mol/L) - 0.05 uM so need /1000000 to become M(mol/L)
+    monovalent= monovalent.to_f
+    monovalent=monovalent/1000
+    divalent=divalent.to_f
+    divalent=divalent/1000
+    dNTP=dNTP.to_f
+    dNTP=dNTP/1000
+    @@r=1.987                  
 
-    tm = ((1000*tot_h)/(-10.8+tot_s+@@r*Math::log(ct/4)))-273.15+16.6*Math::log10(na)
-    if  tm > 80
-      # gc% method
-      s = Bio::Sequence::NA.new(random_primer_generated)
-      gc=s.gc_content
-      tm = 81.5+16.6 * Math::log10(na) + 41*(gc)-500/primer_length-0.62*fa
-    elsif tm < 20
-      # wallace method
-      s = Bio::Sequence::NA.new(random_primer_generated)
-    gc=s.gc_content*primer_length
-    at=s.at_content*primer_length
-    tm = 2*(at)+4*(gc)
+    if self.divalent==0.00 || self.dNTP==0.00 || dNTP>divalent
+       #deltaS(predicted) + 0.368*15(NN pairs)*ln(0.05M monovalent cations) 
+       tot_s=tot_s+(0.368*(self.primer_length-1)*Math.log(monovalent,2.71828183)) 
     else
-    tm=tm
+      #[Monovalent cations] = [Monovalent cations] + 120*(([divalent cations] - [dNTP])^0.5)
+      monovalent = monovalent + 120*((divalent - dNTP)**0.5)
+      tot_s=tot_s+(0.368*(self.primer_length-1 )*Math.log(monovalent,2.71828183)) 
     end
-    self.melting_temp = tm.round(2)
+      #Tm = deltaH/(deltaS + R*ln(C/4))
+      tm = (tot_h*1000)/(tot_s+@@r*Math.log(ct/4,2.71828183))-273.15
+      self.melting_temp = tm.round(2)
   end
+  
 end

@@ -6,7 +6,11 @@ class CreateGenerators < ActiveRecord::Migration
       t.integer :no_T
       t.integer :no_G
       t.integer :no_C
+      t.integer :percent_gc
       t.float :melting_temp
+      t.float :dNTP
+      t.float :monovalent
+      t.float :divalent
       t.string :choice
       t.string :random_primer_generated
       t.string :user_seq

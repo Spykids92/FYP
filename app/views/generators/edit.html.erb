@@ -1,6 +1,22 @@
-<h1>Edit generator</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @generator %> |
+<div class = "result_show">
+		<h2><u>Generated RAPD Primer</u></h2>
+			<table class="result_show">
+				<tr>
+					<td><strong>Primer Length:</strong></td>
+			  		<td><%= @generator.primer_length %></td>
+				</tr>
+				<tr>
+					<td><strong>Method Used:</strong></td>
+					<td><%=@generator.choice %></td>
+				</tr>
+				<tr>
+					<td><strong>Random Primer Generated:</strong></td>
+					<td> <%= @generator.random_primer_generated %></td>
+				</tr>
+				<tr>
+					<td><strong>Tm:</strong></td>
+					<td><%= @generator.melting_temp %><sup>o</sup>C</td>
+				</tr>			
+			</table>
+				<%= f.submit("Regenerate Primer") %>
 <%= link_to 'Back', generators_path %>
