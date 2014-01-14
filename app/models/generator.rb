@@ -16,11 +16,13 @@ class Generator < ActiveRecord::Base
     seq = ''
     length.times { seq << chars[rand(chars.size)] }
     self.random_primer_generated = seq
-    self.percent_gc = seq.gc_percent
+   
     fwrd =Bio::Sequence::NA.new(self.random_primer_generated)
     self.f_primer=fwrd.upcase
     r=f_primer.reverse.upcase
     self.r_primer=r.forward_complement.upcase
+    s= Bio::Sequence::NA.new(random_primer_generated)
+    self.percent_gc =s.gc_percent
     calculate_Tm(self.primer_length,self.random_primer_generated,monovalent,divalent,dNTP)
   end
 
@@ -28,7 +30,8 @@ class Generator < ActiveRecord::Base
     counts = {'A'=>no_A,'T'=>no_T,'G'=>no_G,'C'=>no_C}
     self.random_primer_generated = Bio::Sequence::NA.randomize(counts).upcase
     self.primer_length = self.random_primer_generated.length
-    self.percent_gc = random_primer_generated.gc_percent
+    s= Bio::Sequence::NA.new(random_primer_generated)
+    self.percent_gc =s.gc_percent
     
     fwrd = Bio::Sequence::NA.new(self.random_primer_generated)
     self.f_primer = fwrd.upcase
